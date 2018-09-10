@@ -47,7 +47,7 @@ def searching_lucky_tickets(ticket_number):
     min_difference = 1000
     best_lucky_ticket = None
 
-    for i in (first_num - 1, first_num,  first_num + 1):
+    for i in (first_num - 1, first_num, first_num + 1):
         result_set = decomposition_of_number(find_sum(i, 's'))
         for j in result_set:
             lucky_ticket = i * 1000 + (j[0] * 100 + j[1] * 10 + j[2] * 1)
@@ -57,7 +57,6 @@ def searching_lucky_tickets(ticket_number):
                 best_lucky_ticket = lucky_ticket
 
     return best_lucky_ticket, min_difference
-
 
 
 def decomposition_of_number(number):  # decompose into 3 terms, I think it should be recursion but now it's not :)
@@ -73,9 +72,8 @@ def decomposition_of_number(number):  # decompose into 3 terms, I think it shoul
                     result_set.add(tuple([i, k, j]))
     return result_set
 
-
 # testing part
 # print(decomposition_of_number(2))
 # print(set([1,3,5]) == set([5,5,3,3,1]))
 # print(searching_lucky_tickets(100100))
-# print(get_nearest_lucky_ticket(100000))
+# print(get_nearest_lucky_ticket(123320))
