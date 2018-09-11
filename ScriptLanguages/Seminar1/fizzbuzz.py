@@ -15,7 +15,8 @@ def cycle_for():
         if i % 3 == 0:
             if i % 7 == 0:
                 print('FizzBuzz', end=" ")
-            print('Fizz', end=" ")
+            else:
+                print('Fizz', end=" ")
             continue
         elif i % 7 == 0:
             print('Buzz', end=" ")
@@ -30,7 +31,8 @@ def cycle_while():
         if i % 3 == 0:
             if i % 7 == 0:
                 print('FizzBuzz', end=" ")
-            print('Fizz', end=" ")
+            else:
+                print('Fizz', end=" ")
             i += 2
             continue
         elif i % 7 == 0:
