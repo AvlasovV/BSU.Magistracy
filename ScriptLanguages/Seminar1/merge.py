@@ -15,7 +15,7 @@ def merge(box1, box2):
     result_box = []
     a = iter(box1)
     b = iter(box2)
-    flag = None
+    flag = n1 = n2 = None
     try:
         flag = '1'
         n1 = next(a)
@@ -31,15 +31,19 @@ def merge(box1, box2):
                 flag = '2'
                 n2 = next(b)
     except StopIteration:
-        if flag == '1':
+        if flag == '1' and n2 is not None:
             result_box.append(n2)
-        elif flag == '2':
+        elif flag == '2' and n1 is not None:  # 2nd condition isn't nessecary here, just for symmetry
             result_box.append(n1)
         result_box.extend(a)
         result_box.extend(b)
     return result_box if type(box1) == list else tuple(result_box)  # I don't like this typization, but what should I do?
 
-print(merge([1, 2, 4], [3]))
-print(merge([1, 2, 5, 8, 9, 10], [3]))
-print(merge([], [1, 2, 3]))
-print(merge([1, 2, 3], []))
+
+# print(merge([1, 2, 4], [3]))
+# print(merge((1, 2, 5, 8, 9, 10), (0,)))
+# print(merge([], [1, 2, 3]))
+# print(merge([1, 2, 3], []))
+# print(merge([1, 2, 3], [2, 3]))
+# print(merge([], []))
+# print(merge(tuple(), tuple()))
