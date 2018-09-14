@@ -1,7 +1,7 @@
 """
 Напишите функцию, подсчитывающую количество различных способов
 выдать со счета сумму от 0 до 50 копеек монетами по 1, 2, 5 и 10 копеек.
-Замечание. Программу сохраните в файле exchange.py, функцию назовите exchange_money.
+Замечание. Программу сохраните в файле exchange.py, функцию назовите  exchange_money.
 """
 
 COINS = (1, 2, 5, 10)
@@ -17,5 +17,3 @@ def exchange_money(money):
     if money == 0: return 0
     return get_count(money, len(COINS) - 1)
 
-for i in range(5):
-    print(exchange_money(i))
