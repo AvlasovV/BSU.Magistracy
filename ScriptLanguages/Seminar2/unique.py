@@ -6,7 +6,6 @@
 Замечание. Функцию назовите compress. Программу сохраните в файле unique.py.
 """
 
-
 import collections
 
 
@@ -15,7 +14,5 @@ def compress(sequence):
     for i in sequence:
         d[i] += 1
     return list(d.items())
-
-
 
 # print(compress(([1, 2, 1])))
