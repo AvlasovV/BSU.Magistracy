@@ -5,3 +5,17 @@
 Порядок пар в списке не важен.
 Замечание. Функцию назовите compress. Программу сохраните в файле unique.py.
 """
+
+
+import collections
+
+
+def compress(sequence):
+    d = collections.defaultdict(lambda: 0)
+    for i in sequence:
+        d[i] += 1
+    return list(d.items())
+
+
+
+# print(compress(([1, 2, 1])))
