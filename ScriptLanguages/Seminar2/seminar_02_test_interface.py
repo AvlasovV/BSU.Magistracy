@@ -85,5 +85,4 @@ class InterfaceTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    # test = InterfaceTestCase()
-    # test.test_exchange()
+
