@@ -19,7 +19,7 @@ def minmax(selection):
     max_value = None
     min_value = None
     for value in selection:
-        if not min_value:
+        if min_value is None:
             min_value = value
             max_value = value
         elif value < min_value:
@@ -32,21 +32,15 @@ def minmax(selection):
 def distribute(selection, k):
     min, max = minmax(selection)
     diameter = max - min
-    # intervals = [x for x in range(min, max, diameter / k)]
     step = diameter / k
-    # pointer = min
-    # while pointer <= max:
-    #     intervals.append(pointer)
-    #     pointer += step
-    hist = [0 for i in range(k + 1)]
+
+    hist = [0 for _ in range(k)]
     for number in selection:
         i = int((number - min) / step)
         if number == max:
-            hist[k] += 1
-            continue
+            hist[k - 1] += 1
         elif (min + i * step) <= number:
             hist[i] += 1
-
         elif (min + i * step) == number:
             hist[i - 1] += 1
     return hist
@@ -55,4 +49,8 @@ def distribute(selection, k):
 if __name__ == '__main__':
     print((distribute([1.25, 1, 2, 1.75], 2)))
     print((distribute([1, 2, 3, 4, 5], 4)))
+    print(distribute([1, 1.1], 1))
+    print(distribute([1, 1.3333334, 1.6, 2], 3))
+    print(distribute([0, -0.3333333, 0.667, 1], 3))
+
 
