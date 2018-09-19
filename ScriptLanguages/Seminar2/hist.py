@@ -52,5 +52,3 @@ if __name__ == '__main__':
     print(distribute([1, 1.1], 1))
     print(distribute([1, 1.3333334, 1.6, 2], 3))
     print(distribute([0, -0.3333333, 0.667, 1], 3))
-
-
