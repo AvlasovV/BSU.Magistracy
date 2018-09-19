@@ -16,4 +16,6 @@ def get_count(money, index):
 def exchange_money(money):
     return get_count(money, len(COINS) - 1)
 
-# print(exchange_money(0))
+
+if __name__ == '__main__':
+    print(exchange_money(0))

@@ -45,4 +45,5 @@ def distribute(selection, k):
         return [min, max], intervals, step
 
 
-print((distribute([1.25, 1, 2, 1.75], 2)))
+if __name__ == '__main__':
+    print((distribute([1.25, 1, 2, 1.75], 2)))

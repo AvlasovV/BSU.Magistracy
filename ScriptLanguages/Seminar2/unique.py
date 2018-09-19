@@ -16,4 +16,5 @@ def compress(sequence):
     return list(d.items())
 
 
-print(compress(([1, 12, 3, 4, 1, 3, 12, 4, 1])))
+if __name__ == '__main__':
+    print(compress(([1, 12, 3, 4, 1, 3, 12, 4, 1])))

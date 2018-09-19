@@ -18,13 +18,11 @@ def check_prime(k):
     return all([False for x in range(2, int(sqrt(k)) + 1) if k % x == 0])
 
 
-# test part
-
-# for i in range(0, 20):
-#     print('Number ' + str(i), get_primes(i))
-#     check_prime(i)
-
-# result_set = set()
-# for i in range(2, 100):
-#     result_set.add(get_primes(i)[-1])
-# print(result_set)
+if __name__ == '__main__':
+    for i in range(0, 20):
+        print('Number ' + str(i), get_primes(i))
+        check_prime(i)
+    result_set = set()
+    for i in range(2, 100):
+        result_set.add(get_primes(i)[-1])
+    print(result_set)

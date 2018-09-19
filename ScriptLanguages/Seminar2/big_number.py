@@ -18,15 +18,26 @@ assert (1, [1]) == index (’123’, 1)
 assert (13 , [1, 1, 2]) == index (’1212122222’, (1, 2, 12), 3)
 """
 
+import logging
+
+logging.basicConfig(format='%(filename)s[function:%(funcName)s]# %(levelname)s %(message)s', level=logging.INFO)
+
 
 def index(string_num, numbers, k=5):
-    """I have thought about regular expressions but it's to easy"""
+    """I was thinking about regular expressions, but it's too easy"""
+
+    if type(numbers) is int:
+        numbers = (numbers,)
     position_set = {(num, i + 1 + string_num[i:].find(str(num)))
                     for i in range(len(string_num)) for num in numbers if string_num[i:].find(str(num)) != -1}
     positions = [x[1] for x in position_set]
-    return len(position_set), sorted(positions)[: min(len(positions), k)]
+    if k < max(len(positions), k):
+        logging.info("Here are some another entries, we simply don't print them")
+        return len(position_set), sorted(positions)[: k]
+    return len(position_set), sorted(positions)[: len(positions)]
 
 
-print(index('1212122222', (1, 2, 12), 3))
-print(index('1524451222', (5, 4, 2,), 10))
-print(index('1212122222', (0,)))
+if __name__ == '__main__':
+    print(index('1212122222', (1, 2, 12), 13))
+    print(index('1524451222', (5, 4, 2,), 10))
+    print(index('1524451222', 2, 4))
