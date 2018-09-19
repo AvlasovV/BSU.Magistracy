@@ -38,13 +38,21 @@ def distribute(selection, k):
     # while pointer <= max:
     #     intervals.append(pointer)
     #     pointer += step
-    hist = [0 for i in range(k)]
+    hist = [0 for i in range(k + 1)]
     for number in selection:
         i = int((number - min) / step)
-        if (min + i * step) <= number:
+        if number == max:
+            hist[k] += 1
+            continue
+        elif (min + i * step) <= number:
             hist[i] += 1
+
+        elif (min + i * step) == number:
+            hist[i - 1] += 1
     return hist
 
 
 if __name__ == '__main__':
     print((distribute([1.25, 1, 2, 1.75], 2)))
+    print((distribute([1, 2, 3, 4, 5], 4)))
+
