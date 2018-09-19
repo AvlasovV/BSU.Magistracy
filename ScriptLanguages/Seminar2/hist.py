@@ -33,16 +33,17 @@ def distribute(selection, k):
     min, max = minmax(selection)
     diameter = max - min
     # intervals = [x for x in range(min, max, diameter / k)]
-    intervals = []
     step = diameter / k
-    pointer = min
-    while pointer <= max:
-        intervals.append(pointer)
-        pointer += step
+    # pointer = min
+    # while pointer <= max:
+    #     intervals.append(pointer)
+    #     pointer += step
+    hist = [0 for i in range(k)]
     for number in selection:
-        i = int((number - min) / step) + 1
-
-        return [min, max], intervals, step
+        i = int((number - min) / step)
+        if (min + i * step) <= number:
+            hist[i] += 1
+    return hist
 
 
 if __name__ == '__main__':
