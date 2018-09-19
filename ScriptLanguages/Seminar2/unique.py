@@ -15,4 +15,5 @@ def compress(sequence):
         d[i] += 1
     return list(d.items())
 
-# print(compress(([1, 2, 1])))
+
+print(compress(([1, 12, 3, 4, 1, 3, 12, 4, 1])))

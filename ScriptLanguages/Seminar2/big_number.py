@@ -19,24 +19,14 @@ assert (13 , [1, 1, 2]) == index (’1212122222’, (1, 2, 12), 3)
 """
 
 
-def index(string_num, numbers, k = 5):
-    # numbers = tuple(numbers)
-    # position_list = [(num, i + 1 + string_num[i:].find(str(num)))
-    #                  for i in range(len(string_num)) for num in numbers if string_num[i:].find(str(num)) != -1]
+def index(string_num, numbers, k=5):
+    """I have thought about regular expressions but it's to easy"""
     position_set = {(num, i + 1 + string_num[i:].find(str(num)))
-                     for i in range(len(string_num)) for num in numbers if string_num[i:].find(str(num)) != -1}
+                    for i in range(len(string_num)) for num in numbers if string_num[i:].find(str(num)) != -1}
     positions = [x[1] for x in position_set]
-    positions.sort
-    i = 0
-    while i < len(position_set) or i < k:
-        positions
-
-    # position_list
-    # position_list = sorted(set(position_list))
-    # return len(position_list), set(position_list)
-    return len(position_set), sorted(positions)
+    return len(position_set), sorted(positions)[: min(len(positions), k)]
 
 
-print(index('1212122222', (1, 2, 12)))
-print(index('1212122222', (2,)))
-# print
+print(index('1212122222', (1, 2, 12), 3))
+print(index('1524451222', (5, 4, 2,), 10))
+print(index('1212122222', (0,)))
