@@ -33,7 +33,10 @@ def distribute(selection, k):
     min, max = minmax(selection)
     diameter = max - min
     step = diameter / k
-
+    if step == 0:
+        a = []
+        a.append(len(selection))
+        return a
     hist = [0 for _ in range(k)]
     for number in selection:
         i = int((number - min) / step)
@@ -52,3 +55,4 @@ if __name__ == '__main__':
     print(distribute([1, 1.1], 1))
     print(distribute([1, 1.3333334, 1.6, 2], 3))
     print(distribute([0, -0.3333333, 0.667, 1], 3))
+    print(distribute([1, 1], 1))
