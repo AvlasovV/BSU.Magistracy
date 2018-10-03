@@ -31,6 +31,14 @@ def add_node_edge(graph, n):
 
 def transformation_to_web_graph(graph, n, m):
     """From fundamental graph function makes WemGraph by bollobash-riordan"""
+    g2 = nx.MultiDiGraph()
+    for i in range(1, n + 1):
+        g2.add_node(i * m)
+    for edge in graph.edges:
+        difference = abs(edge[1] - edge[0])
+        is_in_one_cluster = (difference / m < 1)
+        if is_in_one_cluster:
+           g2.add_edge()
 
 
 if __name__ == "__main__":
