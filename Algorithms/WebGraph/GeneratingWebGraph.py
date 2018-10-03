@@ -2,6 +2,7 @@
 
 import networkx as nx
 import random as r
+from math import ceil
 
 
 def creating_web_graph(n, m, a=0.3):
@@ -10,6 +11,15 @@ def creating_web_graph(n, m, a=0.3):
     # g.add_edge(1,1)
     for i in range(1, n * m + 1):
         add_node_edge(g, i)
+    k = 0
+    for i in g.edges:
+        print(i, end="")
+        k += 1
+        if k == 10:
+            print()
+            k = 0
+
+    transformation_to_web_graph(g, n, m)
     return g
 
 
@@ -35,11 +45,11 @@ def transformation_to_web_graph(graph, n, m):
     for i in range(1, n + 1):
         g2.add_node(i * m)
     for edge in graph.edges:
-        difference = abs(edge[1] - edge[0])
-        is_in_one_cluster = (difference / m < 1)
-        if is_in_one_cluster:
-           g2.add_edge()
-
+        # difference = abs(edge[1] - edge[0])
+        # is_in_one_cluster = (difference / m < 1)
+        # if is_in_one_cluster:
+        g2.add_edge(ceil(edge[1] / m), ceil(edge[0] / m))
+    return g2
 
 if __name__ == "__main__":
     # for k in range(10):
@@ -48,14 +58,17 @@ if __name__ == "__main__":
     #     print(g.edges)
     import cProfile, pstats, io
     from pstats import SortKey
+
     pr = cProfile.Profile()
     pr.enable()
 
-    g = creating_web_graph(4000, 16)
+    g = creating_web_graph(4000, 10)
     # print("Graph " ": ", g.nodes)
     # print(g.edges)
     print("nodes_with_selfloops: ", [x for x in g.nodes_with_selfloops()], "\nnumber_of_selfloops^ ",
           g.number_of_selfloops())
+    diam = nx.diameter(g)
+    average_short_path = nx.average_shortest_path_length(g)
 
     pr.disable()
     s = io.StringIO()
