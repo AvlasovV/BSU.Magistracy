@@ -19,7 +19,7 @@ def creating_web_graph(n, m, a=0.3):
             print()
             k = 0
 
-    transformation_to_web_graph(g, n, m)
+    g = transformation_to_web_graph(g, n, m)
     return g
 
 
@@ -48,8 +48,9 @@ def transformation_to_web_graph(graph, n, m):
         # difference = abs(edge[1] - edge[0])
         # is_in_one_cluster = (difference / m < 1)
         # if is_in_one_cluster:
-        g2.add_edge(ceil(edge[1] / m), ceil(edge[0] / m))
+        g2.add_edge(m * ceil(edge[1] / m), m * ceil(edge[0] / m))
     return g2
+
 
 if __name__ == "__main__":
     # for k in range(10):
@@ -62,9 +63,10 @@ if __name__ == "__main__":
     pr = cProfile.Profile()
     pr.enable()
 
-    g = creating_web_graph(4000, 10)
+    g = creating_web_graph(4, 2)
     # print("Graph " ": ", g.nodes)
-    # print(g.edges)
+    print('\n', g.edges, end="\n")
+    print(g.nodes)
     print("nodes_with_selfloops: ", [x for x in g.nodes_with_selfloops()], "\nnumber_of_selfloops^ ",
           g.number_of_selfloops())
     diam = nx.diameter(g)
