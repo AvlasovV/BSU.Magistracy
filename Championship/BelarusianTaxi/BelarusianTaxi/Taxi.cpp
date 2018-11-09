@@ -1,4 +1,4 @@
-﻿/**
+/**
 Number plates used for taxi vehicles in the Republic of Belarus have the following format:
 
 region code (a digit from 1 to 7);
@@ -42,14 +42,12 @@ using namespace std;
 
 int main() {
 	
-	string pattern1 = "^[1-6][TAX,TBX] [0-9]{3}[1-9]$";
-	string pattern2 = "^7[TAX,TBX,TEX] [0-9]{3}[1-9]$";
-	regex preg;
-	int err, regerr;
-	err = regcomp(&preg, pattern1, REG_EXTENDED);
+    regex pattern1 ("[1-6]((TAX)|(TBX)) ((?!(0000))[0-9]{4})");
+    regex pattern2 ("[7]((TEX)|(TAX)|(TBX)) ((?!(0000))[0-9]{4})");
 
 	int n;
-	string line;
+
+    string line;
 	ifstream file_in("taxi.in");
 	getline(file_in, line);
 	istringstream iss(line);
@@ -61,14 +59,18 @@ int main() {
 			plates.push_back(line);
 	}
 	file_in.close();
-
+    int counter = 0;
 	for (int i = 0; i < plates.size(); i++) {
-		cout << plates[i] << "||||" << endl;
+		if(!regex_match(plates[i], pattern1)){
+            counter += regex_match(plates[i], pattern2);
+        }
+        else{
+            counter++;
+        }
 	}
-	cin >> n;
 
 	ofstream file_out("taxi.out");
-
+    file_out << counter;
 	file_out.close();
 
 }
