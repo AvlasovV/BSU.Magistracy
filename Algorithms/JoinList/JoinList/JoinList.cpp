@@ -53,11 +53,12 @@ void write_sequence(vector<int> seq, char* filename){
 int main(){
 
 
-//    vector<int> sequence;
-//    for(int i = 1; i < 11; i++){
-//        sequence.push_back(i);
-//    }
-//    write_sequence(sequence,"output.bin");
+    vector<int> sequence;
+    for(int i = 1; i < 11; i++){
+        sequence.push_back(i);
+        //sequence.push_back(i * 100000000 + i);
+    }
+    write_sequence(sequence,"output.bin");
 
 
     ifstream input_file;
@@ -67,7 +68,7 @@ int main(){
     vector<Pair> pairs;
     input_file.open("output.bin", ios::in | ios::binary);
     input_file.read((char*)&N, sizeof(int));
-
+    cout << "N = " << N << endl;
     Pair buf;
     for(int i = 0; i < N; i++){
         input_file.read((char*)&buf.current, sizeof(int));
