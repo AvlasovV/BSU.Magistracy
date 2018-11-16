@@ -29,11 +29,12 @@ using namespace std;
 typedef long long ll;
 
 
-int BLOCK_SIZE = 4000;
+int BLOCK_SIZE = 3;
 int NUM_SIZE = sizeof(ll);
 ll file_counter = 0;
 
-void write_sequence_into_file(vector<ll> seq, string filename){
+
+void write_sequence_into_file(ll seq[], string filename){
     ofstream output_file;
     output_file.open(filename, ios::out | ios:: binary);
     ll seq_length = seq.size();
@@ -45,6 +46,7 @@ void write_sequence_into_file(vector<ll> seq, string filename){
     }
     output_file.close();
 }
+
 
 ll read_and_sort(char* f_name){
 
@@ -91,19 +93,7 @@ ll read_and_sort(char* f_name){
     return N;
 }
 
-void read_and_print(string filename){
-    ifstream input_file;
-    input_file.open(filename, ios::in | ios::binary);
-    ll N;
-    ll buf;
-    input_file.read((char*)&N, NUM_SIZE);
-    cout << "N = " << N << endl;
-    for(ll i = 0; i < N; i++){
-        input_file.read((char*)&buf, NUM_SIZE);
-        cout << buf << endl;
-    }
-    input_file.close();
-}
+
 
 void merge_two_files(string f1, string f2, bool out = false){
     ifstream file1, file2;
@@ -202,12 +192,41 @@ void merge_all(){
     }
 }
 
+void read_and_print(string filename){
+    ifstream input_file;
+    input_file.open(filename, ios::in | ios::binary);
+    ll N;
+    ll buf;
+    input_file.read((char*)&N, NUM_SIZE);
+    cout << "N = " << N << endl;
+    for(ll i = 0; i < N; i++){
+        input_file.read((char*)&buf, NUM_SIZE);
+        cout << buf << endl;
+    }
+    input_file.close();
+}
+
+
 int main(){
 
 
 //    read_and_print("input.bin");
-    ll N = read_and_sort("input.bin");
-    merge_all();
+//    ll N = read_and_sort("input.bin");
+//    merge_all();
+//    read_and_print("output.bin");
+
+    ll * block = new ll[BLOCK_SIZE];
+    vector<ll> v_block;
+    v_block.reserve(BLOCK_SIZE);
+    ifstream input_file;
+    input_file.open("output.bin");
+//    input_file.read((char*)block, NUM_SIZE * BLOCK_SIZE);
+    input_file.read((char*)&v_block, NUM_SIZE * BLOCK_SIZE);
+    input_file.close();
+    for(int i = 0; i < BLOCK_SIZE; i++){
+        cout << block[i] << " ";
+    }
+
 //    read_and_print("output.bin");
 //    read_and_print("0");
 //    rename("0", "pampam");
