@@ -26,7 +26,7 @@ int main() {
     srand(time(NULL));
 	for (int i = 0; i < n; i++) {
         //long long x = distr(eng);
-        long long x = rand() % 100;
+        long long x = rand() % 20;
 		out.write((char*)&x, sizeof(x));
 	}
 
