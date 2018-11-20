@@ -50,7 +50,7 @@ int main() {
     out.write((char*)&n, sizeof(long long));
 
     for (int i = 0; i < n_; i++) {
-        std::cout << numbers[i] << endl;
+       // std::cout << numbers[i] << endl;
         out.write((char*)&(numbers[i]), sizeof(numbers[0]));
     }
 
