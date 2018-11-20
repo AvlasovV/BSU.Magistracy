@@ -29,7 +29,7 @@ using namespace std;
 typedef long long ll;
 
 
-int BLOCK_SIZE = 500;
+int BLOCK_SIZE = 1000;
 int NUM_SIZE = sizeof(ll);
 ll file_counter = 0;
 
@@ -290,10 +290,11 @@ int main(){
 
 
 //    read_and_print("input.bin");
-
+//    read_and_print("output_sorted.bin");
     read_and_sort("input.bin");
 
     merge_all();
+//    read_and_print("output.bin");
 //    read_and_print("0");
 
 //    read_and_print("0");

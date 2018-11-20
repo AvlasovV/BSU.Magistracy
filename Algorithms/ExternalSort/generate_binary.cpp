@@ -26,7 +26,7 @@ int main() {
     srand(time(NULL));
 	for (int i = 0; i < n; i++) {
         //long long x = distr(eng);
-        long long x = rand() % 30;
+        long long x = rand() % 10000000;
 		out.write((char*)&x, sizeof(x));
 	}
 
@@ -45,10 +45,19 @@ int main() {
 
     sort(numbers, numbers + n_);
 
+    //Write sorted sequence into file just for simple comparison of big_files by python
+    out.open("output_sorted.bin", std::fstream::binary);
+    out.write((char*)&n, sizeof(long long));
+
     for (int i = 0; i < n_; i++) {
         std::cout << numbers[i] << endl;
+        out.write((char*)&(numbers[i]), sizeof(numbers[0]));
     }
+
+    out.close();
+
     std::cout << std::endl;
+
 
 	return 0;
 }
