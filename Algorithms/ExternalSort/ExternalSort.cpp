@@ -168,7 +168,7 @@ void merge_two_files(string f1, string f2, bool out = false){
         }
 
         if(arr_iter1 == cur_len1){
-                        if(counter1 >= file_len1){
+            if(counter1 >= file_len1){
                 output_file.write((char*)output_block, NUM_SIZE * output_iter);
                 output_file.write((char*)(block2 + arr_iter2), NUM_SIZE * (cur_len2 - arr_iter2));
                 while(counter2 < file_len2){
@@ -203,7 +203,7 @@ void merge_two_files(string f1, string f2, bool out = false){
 
         }
         if(arr_iter2 == cur_len2){
-                        if(counter2 >= file_len2){
+            if(counter2 >= file_len2){
                 output_file.write((char*)output_block, NUM_SIZE * output_iter);
                 output_file.write((char*)(block1 + arr_iter1), NUM_SIZE * (cur_len1 - arr_iter1));
                 while(counter1 < file_len1){
