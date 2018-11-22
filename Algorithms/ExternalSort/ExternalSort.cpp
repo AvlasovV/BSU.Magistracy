@@ -29,7 +29,7 @@ using namespace std;
 typedef long long ll;
 
 
-int BLOCK_SIZE = 1000;
+int BLOCK_SIZE = 17000;
 int NUM_SIZE = sizeof(ll);
 ll file_counter = 0;
 
@@ -93,6 +93,18 @@ ll read_and_sort(char* f_name){
 }
 
 
+void read_block(ll file_length, ll &counter, ll &cur_length, ll * block, ifstream &input_stream){
+    if(file_length - counter >= BLOCK_SIZE){
+        input_stream.read((char*)block, NUM_SIZE * BLOCK_SIZE);
+        counter += BLOCK_SIZE;
+    }
+    else{
+        cur_length = file_length - counter;
+        input_stream.read((char*)block, NUM_SIZE * (cur_length));
+        counter = file_length;
+    }
+}
+
 
 void merge_two_files(string f1, string f2, bool out = false){
     ifstream file1, file2;
@@ -116,39 +128,18 @@ void merge_two_files(string f1, string f2, bool out = false){
     output_file.open(file_n, ios::out | ios:: binary);
     output_file.write((char*)&big_len, NUM_SIZE);
 
+    int arr_iter1 = 0, arr_iter2 = 0, output_iter = 0;
     ll * block1, *block2, *output_block;
     ll counter1 = 0, counter2 = 0, output_counter = 0; //how many elems we have already read
     ll cur_len1 = BLOCK_SIZE;                          // current length of block 1
     ll cur_len2 = BLOCK_SIZE;
 
-    if(file_len1 - counter1 >= BLOCK_SIZE){
-        block1 = new ll[BLOCK_SIZE];
-        file1.read((char*)block1, NUM_SIZE * BLOCK_SIZE);
-        counter1 += BLOCK_SIZE;
-    }
-    else{
-        cur_len1 = file_len1 - counter1;
-        block1 = new ll[cur_len1];
-        file1.read((char*)block1, NUM_SIZE * (cur_len1));
-        counter1 = file_len1;
-    }
-
-    if(file_len2 - counter2 >= BLOCK_SIZE){
-        block2 = new ll[BLOCK_SIZE];
-        file2.read((char*)block2, NUM_SIZE * BLOCK_SIZE);
-        counter2 += BLOCK_SIZE;
-    }
-    else{
-        cur_len2 = file_len2 - counter2;
-        block2 = new ll[cur_len2];
-        file2.read((char*)block2, NUM_SIZE * (cur_len2));
-        counter2 = file_len2;
-    }
-//    output_block = new ll[max(BLOCK_SIZE, max(cur_len1, cur_len2))];
+    block1 = new ll[BLOCK_SIZE];
+    block2 = new ll[BLOCK_SIZE];
     output_block = new ll[BLOCK_SIZE];
 
-    int arr_iter1 = 0, arr_iter2 = 0, output_iter = 0;
-
+    read_block(file_len1, counter1, cur_len1, block1, file1);
+    read_block(file_len2, counter2, cur_len2, block2, file2);
 
     while(output_counter < big_len){
         if(block1[arr_iter1] < block2[arr_iter2]){
@@ -172,70 +163,26 @@ void merge_two_files(string f1, string f2, bool out = false){
                 output_file.write((char*)output_block, NUM_SIZE * output_iter);
                 output_file.write((char*)(block2 + arr_iter2), NUM_SIZE * (cur_len2 - arr_iter2));
                 while(counter2 < file_len2){
-                    if(file_len2 - counter2 >= BLOCK_SIZE){
-                        //block2 = new ll[BLOCK_SIZE];
-                        file2.read((char*)block2, NUM_SIZE * BLOCK_SIZE);
-                        counter2 += BLOCK_SIZE;
-                        cur_len2 = BLOCK_SIZE;
-                    }
-                    else if( (file_len2 - counter2 < BLOCK_SIZE) && (file_len2 - counter2 > 0) ){
-                        cur_len2 = file_len2 - counter2;
-//                        block2 = new ll[cur_len2];
-                        file2.read((char*)block2, NUM_SIZE * (cur_len2));
-                        counter2 = file_len2;
-                    }
+                    read_block(file_len2, counter2, cur_len2, block2, file2);
                     output_file.write((char*)block2, NUM_SIZE * cur_len2);
                 }
                 break;
             }
             arr_iter1 = 0;
-            if(file_len1 - counter1 >= BLOCK_SIZE){
-//                block1 = new ll[BLOCK_SIZE];
-                file1.read((char*)block1, NUM_SIZE * BLOCK_SIZE);
-                counter1 += BLOCK_SIZE;
-            }
-            else if((file_len1 - counter1 > 0) && (file_len1 - counter1 < BLOCK_SIZE)){
-                cur_len1 = file_len1 - counter1;
-//                block1 = new ll[cur_len1];
-                file1.read((char*)block1, NUM_SIZE * (cur_len1));
-                counter1 = file_len1;
-            }
-
+            read_block(file_len1, counter1, cur_len1, block1, file1);
         }
         if(arr_iter2 == cur_len2){
             if(counter2 >= file_len2){
                 output_file.write((char*)output_block, NUM_SIZE * output_iter);
                 output_file.write((char*)(block1 + arr_iter1), NUM_SIZE * (cur_len1 - arr_iter1));
                 while(counter1 < file_len1){
-                    if(file_len1 - counter1 >= BLOCK_SIZE){
-//                        block1 = new ll[BLOCK_SIZE];
-                        file1.read((char*)block1, NUM_SIZE * BLOCK_SIZE);
-                        counter1 += BLOCK_SIZE;
-                        cur_len1 = BLOCK_SIZE;
-                    }
-                    else if((file_len1 - counter1 < BLOCK_SIZE) && (file_len1 - counter1 > 0)  ){
-                        cur_len1 = file_len1 - counter1;
-//                        block1 = new ll[cur_len1];
-                        file1.read((char*)block1, NUM_SIZE * (cur_len1));
-                        counter1 = file_len1;
-                    }
+                    read_block(file_len1, counter1, cur_len1, block1, file1);
                     output_file.write((char*)block1, NUM_SIZE * cur_len1);
                 }
                 break;
             }
             arr_iter2 = 0;
-            if(file_len2 - counter2 >= BLOCK_SIZE){
-//                block2 = new ll[BLOCK_SIZE];
-                file2.read((char*)block2, NUM_SIZE * BLOCK_SIZE);
-                counter2 += BLOCK_SIZE;
-            }
-            else if((file_len2 - counter2 > 0) && (file_len2 - counter2 < BLOCK_SIZE)){
-                cur_len2 = file_len2 - counter2;
-//                block2 = new ll[cur_len2];
-                file2.read((char*)block2, NUM_SIZE * (cur_len2));
-                counter2 = file_len2;
-            }
-
+            read_block(file_len2, counter2, cur_len2, block2, file2);
         }
     }
 
@@ -248,6 +195,7 @@ void merge_two_files(string f1, string f2, bool out = false){
 }
 
 
+
 void merge_all(){
     if(file_counter > 1){
         ll cur_iteration = 0;
@@ -255,21 +203,17 @@ void merge_all(){
             ll cur_counter = file_counter;
             for(ll i = cur_iteration; i < cur_counter - 1; i += 2){
                 merge_two_files(to_string(i), to_string(i+1));
-//                read_and_print(to_string(file_counter - 1));
             }
-//            read_and_print(to_string(file_counter - 1));
             cur_iteration = cur_counter;
             if(cur_counter % 2 == 1){
                 merge_two_files(to_string(cur_counter - 1),to_string(cur_counter));
                 cur_iteration++;
-//                read_and_print(to_string(file_counter - 1));
             }
 
         }
         if(file_counter - cur_iteration == 2){
             merge_two_files(to_string(file_counter - 1),to_string(cur_iteration), true );
         }
-        //merge_two_files(to_string(file_counter - 1),to_string(cur_iteration), true );
         if(file_counter - cur_iteration == 1){
             string file_name = to_string(file_counter-1);
             char file_n[file_name.size()+1];
