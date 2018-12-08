@@ -51,7 +51,7 @@ unlist(strsplit(rownames(matr), ""))
 x <- (1:13)
 unlist(strsplit(rownames(matr), "")[2])[1]
 
-english <- c("A", "B", "B", "D", "E", "F")
+english <- c("A", "B", "C", "D", "E", "F")
 vec <- c()
 for (i in (1:13)) {
       if(unlist(strsplit(rownames(matr), "")[i])[1] %in% english){

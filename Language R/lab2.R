@@ -12,17 +12,24 @@ is.prime(63)
 is.mersen.and.prime <- function(n){ 
   two.per.degree <- 2 
   x <- c(1) 
-  print(x) 
   while (two.per.degree < n){ 
     two.per.degree <- two.per.degree * 2 
-    print(two.per.degree) 
-    print(is.prime(two.per.degree - 1)) 
     if (is.prime(two.per.degree - 1)){ 
       x <- c(x, two.per.degree - 1) 
-      print(x) 
     } 
   } 
-  x 
+  x
 } 
 is.mersen.and.prime(1000000)
 #
+
+library(Rcpp)
+sourceCpp("D:\\!UNIVERSITY\\BSU.Magistracy\\Language R\\CPlusPlusForR\\CforR.cpp")
+
+tictoc::tic()
+is.mersen.and.prime(1000000000000)
+tictoc::toc()
+
+tictoc::tic()
+mersen_seq(1000000000000)
+tictoc::toc()
