@@ -141,7 +141,7 @@ void build(vector<Node> &tree, vector<ll> arr, int v, int tleft, int tright) {
 //}
 
 ll get_even_sum(vector<Node> &tree, int v, int tleft, int tright, int l, int r){
-    if (l > r || tleft > tright)
+    if (l > r)
 		return 0;
 	if (l == tleft && r == tright)
 		return tree[v].even_sum;
@@ -151,7 +151,7 @@ ll get_even_sum(vector<Node> &tree, int v, int tleft, int tright, int l, int r){
 }
 
 ll get_odd_sum(vector<Node> &tree, int v, int tleft, int tright, int l, int r){
-    if (l > r || tleft > tright)
+    if (l > r)
 		return 0;
 	if (l == tleft && r == tright)
 		return tree[v].odd_sum;
@@ -236,7 +236,7 @@ int main()
     build(tree, arr, 1, 0 , n - 1);
     print_node_vector(tree);
     cout << get_even_sum(tree, 1, 0, n-1, 1, 4) << endl;
-    set_new_value(tree, 1, 0, n - 1, 4, 15);
+    set_new_value(tree, 1, 0, n-1, 4, 15);
     cout << get_even_sum(tree, 1, 0, n-1, 1, 4) << endl;
     cout << get_odd_sum(tree, 1, 0, n-1, 1, 4) << endl;
 
