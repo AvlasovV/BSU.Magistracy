@@ -1,4 +1,7 @@
 ﻿/**
+Big thanks for http://e-maxx.ru/algo/segment_tree
+Cool source!
+
 Задан массив A из n положительных чисел ai (1≤ai≤10^9). Необходимо уметь выполнять 4 вида запросов:
 
 1 p v — присвоить p-му элементу массива значение v.
@@ -70,7 +73,7 @@ struct Node{
     int value = -1;
 
     void print_node(){
-        cout << "Value=" << this -> value << "\nEven and odd count:" << this -> even_count << ", " << this->odd_count << " Even and odd sums:" << this->even_sum << ", " << this->odd_sum << endl;
+        cout << "Value=" << this -> value << "\nEven/odd count:" << this -> even_count << ", " << this->odd_count << " Even/odd sums:" << this->even_sum << ", " << this->odd_sum << endl;
     }
 };
 
@@ -125,28 +128,66 @@ void build(vector<Node> &tree, vector<ll> arr, int v, int tleft, int tright) {
 }
 
 
-void update(int tree[], int v, int tleft, int tright, int l, int r, int add) {
-	if (l > r)
-		return;
-	if (l == tleft && tright == r)
-		tree[v] += add;
-	else {
-		int tm = (tleft + tright) / 2;
-		update(tree, v * 2, tleft, tm, l, min(r, tm), add);
-		update(tree, v * 2 + 1, tm + 1, tright, max(l, tm + 1), r, add);
-	}
+//void update(vector<Node> &tree, int v, int tleft, int tright, int l, int r, int add) {
+//	if (l > r)
+//		return;
+//	if (l == tleft && tright == r)
+//		tree[v] += add;
+//	else {
+//		int tm = (tleft + tright) / 2;
+//		update(tree, v * 2, tleft, tm, l, min(r, tm), add);
+//		update(tree, v * 2 + 1, tm + 1, tright, max(l, tm + 1), r, add);
+//	}
+//}
+
+ll get_even_sum(vector<Node> &tree, int v, int tleft, int tright, int l, int r){
+    if (l > r || tleft > tright)
+		return 0;
+	if (l == tleft && r == tright)
+		return tree[v].even_sum;
+	int tm = (tleft + tright) / 2;
+	return get_even_sum (tree, v*2, tleft, tm, l, min(r,tm))
+		+ get_even_sum (tree, v*2+1, tm+1, tright, max(l,tm+1), r);
 }
 
-void set_new_value(int tree[], int v, int tleft, int tright, int pos, int new_val) {
-	if (tleft == tright)
-		tree[v] = new_val;
+ll get_odd_sum(vector<Node> &tree, int v, int tleft, int tright, int l, int r){
+    if (l > r || tleft > tright)
+		return 0;
+	if (l == tleft && r == tright)
+		return tree[v].odd_sum;
+	int tm = (tleft + tright) / 2;
+	return get_odd_sum (tree, v*2, tleft, tm, l, min(r,tm))
+		+ get_odd_sum (tree, v*2+1, tm+1, tright, max(l,tm+1), r);
+}
+
+void set_new_value(vector<Node> &tree, int v, int tleft, int tright, int pos, int new_val) {
+	if (tleft == tright){
+		tree[v].value = new_val;
+		if (tree[v].value % 2 == 0){
+            tree[v].even_sum = tree[v].value;
+            tree[v].odd_sum = 0;
+            tree[v].even_count = 1;
+            tree[v].odd_count = 0;
+		}
+		else{
+            tree[v].odd_sum = tree[v].value;
+            tree[v].even_sum = 0;
+            tree[v].odd_count = 1;
+            tree[v].even_count = 0;
+		}
+	}
 	else {
 		int tm = (tleft + tright) / 2;
 		if (pos <= tm)
 			set_new_value(tree, v * 2, tleft, tm, pos, new_val);
 		else
 			set_new_value(tree, v * 2 + 1, tm + 1, tright, pos, new_val);
-		tree[v] = tree[v * 2] + tree[v * 2 + 1];
+
+		tree[v].even_sum = tree[v * 2].even_sum + tree[v * 2 + 1].even_sum;
+		tree[v].odd_sum = tree[v * 2].odd_sum + tree[v * 2 + 1].odd_sum;
+
+		tree[v].even_count = tree[v * 2].even_count + tree[v * 2 + 1].even_count;
+		tree[v].odd_count = tree[v * 2].odd_count + tree[v * 2 + 1].odd_count;
 	}
 }
 
@@ -194,6 +235,15 @@ int main()
     vector<Node> tree(4*n + 1);
     build(tree, arr, 1, 0 , n - 1);
     print_node_vector(tree);
+    cout << get_even_sum(tree, 1, 0, n-1, 1, 4) << endl;
+    set_new_value(tree, 1, 0, n - 1, 4, 15);
+    cout << get_even_sum(tree, 1, 0, n-1, 1, 4) << endl;
+    cout << get_odd_sum(tree, 1, 0, n-1, 1, 4) << endl;
+
+
+    print_node_vector(tree);
+
+
 
 
 	/*for (int i = 0; i < q; ++) {
