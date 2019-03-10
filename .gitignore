@@ -5,6 +5,23 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# pampam
+*.cbp
+*.depend
+*.filters
+*.layout
+*.sln
+*.txt
+*.png
+*.in
+*.out
+*.rc
+*.vcxproj
+*.rmd
+*.bin
+resource.h
+*.html
+
 # User-specific files
 *.suo
 *.user
