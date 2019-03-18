@@ -52,7 +52,7 @@ unsigned int fnv1a(string text)
 
 int main() {
 	
-	vector<unsigned short> values(m, 0);	// Our cells
+	vector<unsigned char> values(m, 0);	// Our cells. We use char, because value in cell < 32
 	string temp;
 	unsigned int hash_val = 0;
 	unsigned int index = 0;
