@@ -31,13 +31,14 @@ id22999
 using namespace std;
 
 
-int k = 18;
-int m = pow(2, k);
-// Here maybe not right 'a'
-double a = 0.7213 / (1 + 1.079 / m);
+int k = 18; 					// First left bits, affects accuracy
+int m = pow(2, k); 				// count of cells in our Hyper LogLog
+
+double a = 0.7213 / (1 + 1.079 / m); 		// Constant with complex mathematical justification
 
 unsigned int fnv1a(string text)
 {
+	/** Fast 32-bit hash function */
 	int hash = 2166136261;
 	vector<char> cstr(text.c_str(), text.c_str() + text.size() + 1);
 	for (int i = 0; i < cstr.size(); ++i)
@@ -50,30 +51,29 @@ unsigned int fnv1a(string text)
 }
 
 int main() {
-	vector<unsigned short> values(m, 0);
-
-	//for (int i = 0; i < values.size(); ++i)
-	//	cout << values[i];
 	
+	vector<unsigned short> values(m, 0);	// Our cells
 	string temp;
 	unsigned int hash_val = 0;
 	unsigned int index = 0;
 	unsigned int value = 0;
 	unsigned short res = 0;
-
-	while (getline(cin, temp)) {
+	
+	// Here we getting stream and calculate unique values
+	while (getline(cin, temp)) {		
 		if (temp.compare("") == 0) {
 			break;
 		}
 		
 		hash_val = fnv1a(temp);
-		index = hash_val >> (32 - k);
-		value = hash_val & ((1 << 32 - k) - 1);
-		res = (32 - k) - (int)log2(value);
+		index = hash_val >> (32 - k);		// Getting index of cell, first k bits
+		value = hash_val & ((1 << 32 - k) - 1);	// Getting value, last (32 - k) bits
+		res = (32 - k) - (int)log2(value);	// Getting cell value, first non-zero bit in value
 		values[index] = (values[index] < res) ? res : values[index];
 	}
 
-	// For test, just all uniq
+	// For test, just all unique values
+	
 	//for (int i = 0; i < 10000; i++)
 	// {
 	//	hash_val = fnv1a(to_string(i));
@@ -84,7 +84,8 @@ int main() {
 	//}
 
 
-	// Fix estimate 
+	// Calculating and fixing estimate. To understand why it works like it works you need to read article: 
+	// http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf 
 	double estimate = 0;
 	int empty_cells = 0;
 
@@ -98,7 +99,6 @@ int main() {
 
 	//cout << "Raw estimate = " << estimate << endl;
 
-	//cout << "MAX UINT * 1/30 = " << (1. / 30) * UINT32_MAX << endl;
 	// Fix small estimates
 	if ((estimate < (2.5 * m)) && (empty_cells > 0)) {
 		estimate = m * log((double)m / empty_cells);
@@ -110,11 +110,6 @@ int main() {
 
 	//cout << "Estimate = " << estimate << endl;
 	cout << (int)estimate << endl;
-	/*for (int i = 0; i < values.size(); ++i) {
-		if (values[i] != 0)
-			cout << values[i] << "\n";
-	} */
-
 
 	cin.get();
 }
