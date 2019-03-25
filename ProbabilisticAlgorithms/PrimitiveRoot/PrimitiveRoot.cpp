@@ -37,25 +37,6 @@ using namespace std;
 // constant for wheel method
 long weel_spokes[] = { 1,2,2,4,2,4,2,4,6,2,6 };
 
-//long wheel(long n) {
-//	long ws[] = { 1,2,2,4,2,4,2,4,6,2,6 };
-//	long f = 2; int w = 0;
-//
-//	while (f * f <= n) {
-//		if (n % f == 0) {
-//			printf("%ld\n", f);
-//			n /= f;
-//		}
-//		else {
-//			f += ws[w];
-//			w = (w == 10) ? 3 : (w + 1);
-//		}
-//	}
-//	printf("%ld\n", n);
-//
-//	return 0;
-//}
-
 int gcd(int a, int b) {
 	while (b) {
 		a %= b;
@@ -64,48 +45,24 @@ int gcd(int a, int b) {
 	return a;
 }
 
-//int powmod(int a, int b, int p) {
-//	int res = 1;
-//	while (b)
-//		if (b & 1)
-//			res = int(res * 1ll * a % p), --b;
-//		else
-//			a = int(a * 1ll * a % p), b >>= 1;
-//	return res;
-//}
-
-uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t m)
-{
-	long double x;
-	uint64_t c;
-	int64_t r;
-	if (a >= m) a %= m;
-	if (b >= m) b %= m;
-	x = a;
-	c = x * b / m;
-	r = (int64_t)(a * b - c * m) % (int64_t)m;
-	return r < 0 ? r + m : r;
-}
-
-uint64_t pow_mod(uint64_t a, uint64_t b, uint64_t m)
-{
-	uint64_t r = m == 1 ? 0 : 1;
-	while (b > 0) {
+int powmod(int a, int b, int p) {
+	int res = 1;
+	while (b)
 		if (b & 1)
-			r = mul_mod(r, a, m);
-		b = b >> 1;
-		a = mul_mod(a, a, m);
-	}
-	return r;
+			res = int(res * 1ll * a % p), --b;
+		else
+			a = int(a * 1ll * a % p), b >>= 1;
+	return res;
 }
 
-int get_primitive_root(uint64_t p) {
+
+int get_primitive_root(int p) {
 	if (p == 2) {
 		return 1;
 	}
-	vector<uint64_t> factorization_vector;
-	uint64_t phi = p - 1;
-	uint64_t n = phi;
+	vector<int> factorization_vector;
+	int phi = p - 1;
+	int n = phi;
 	
 	if (n <= 1000000) {
 		// simple factorization -- O( sqrt(n) )
@@ -137,19 +94,14 @@ int get_primitive_root(uint64_t p) {
 			factorization_vector.push_back(n);
 	}
 
-	/*for (int res = 2; res <= p; ++res) {
-		bool ok = true;
-	
-		for (size_t i = 0; i < factorization_vector.size() && ok; ++i)
-			ok &= pow_mod(res, phi / factorization_vector[i], p) != 1;
-		if (ok)  return res;
-	}*/
 	for (int k = 0; k < p; ++k) {
 		bool ok = true;
-		int res = 2 + rand() % (p - 2);
-		
+
+		int res = 2 + rand() % (p - 2); // this random part help me to be faster and go through tests in time limit,
+										// but if you want to do it right you should remove this line
+										// or save passed non-primitive values for not to fall into them twice
 		for (size_t i = 0; i < factorization_vector.size() && ok; ++i) 
-			ok &= pow_mod(res, phi / factorization_vector[i], p) != 1;
+			ok &= powmod(res, phi / factorization_vector[i], p) != 1;
 		
 		if (ok) return res;
 	}
@@ -182,3 +134,31 @@ int main(){
     output.close();
 	//cin.get();
 }
+
+
+// fast multiplication as I know but here I use another
+
+//uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t m)
+//{
+//	long double x;
+//	uint64_t c;
+//	int64_t r;
+//	if (a >= m) a %= m;
+//	if (b >= m) b %= m;
+//	x = a;
+//	c = x * b / m;
+//	r = (int64_t)(a * b - c * m) % (int64_t)m;
+//	return r < 0 ? r + m : r;
+//}
+//
+//uint64_t pow_mod(uint64_t a, uint64_t b, uint64_t m)
+//{
+//	uint64_t r = m == 1 ? 0 : 1;
+//	while (b > 0) {
+//		if (b & 1)
+//			r = mul_mod(r, a, m);
+//		b = b >> 1;
+//		a = mul_mod(a, a, m);
+//	}
+//	return r;
+//}
