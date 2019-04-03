@@ -48,58 +48,11 @@ int main() {
 	Hitter * hitters = new Hitter[k];
 	int empty_places = k;
 	int empty_index = -1;
-	//int val_buf = 1;
-	//map<int, int> hitters1;
 
 
 	int buf = 0;
 	bool is_in = false;
-	//bool found_place = false;
 	cin >> buf;
-
-	/** map doesn't work ok  :( */
-
-	//while (buf >= 0) {
-	//	if (buf > 0) {
-	//		if (hitters1.find(buf) == hitters1.end()) {
-	//			if (hitters1.size() < k) {
-	//				hitters1.insert(make_pair(buf, 1));
-	//			}
-	//			else {
-	//				for (auto & x : hitters1) {
-	//					if (x.second <= 0) {
-	//						hitters1.erase(x.first);
-	//						hitters1.insert(make_pair(buf, 1));
-	//						find_place = true;
-	//						break;
-	//					}
-	//				}
-	//				if (!find_place) {
-	//					for (auto & x : hitters1) {
-	//						x.second--;
-	//					}
-	//				}
-	//			}
-	//		}
-	//		else {
-	//			hitters1[buf]++;
-	//		}
-	//	}
-	//	else {
-	//		for (auto &const x : hitters1) {
-	//			val_buf = x.first;
-	//			cout << val_buf << " ";
-	//		}
-	//		if (hitters1.size() < k) {
-	//			for (int i = 0; i < k - hitters1.size(); i++) {
-	//				cout << val_buf << " ";
-	//			}
-	//		}
-	//		cout << endl;
-	//	}
-	//	find_place = false;
-	//	cin >> buf;
-	//}
 
 	while (buf >= 0) {
 
