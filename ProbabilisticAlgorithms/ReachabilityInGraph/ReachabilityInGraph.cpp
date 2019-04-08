@@ -48,12 +48,12 @@ vector<char> used;
 vector<int> order, component;
 
 
-void dfs(int vertice) {
-	used[vertice] = true;
-	for (size_t i = 0; i < graph[vertice].size(); ++i)
-		if (!used[graph[vertice][i]])
-			dfs(graph[vertice][i]);
-	order.push_back(vertice);
+void dfs(int vertex) {
+	used[vertex] = true;
+	for (size_t i = 0; i < graph[vertex].size(); ++i)
+		if (!used[graph[vertex][i]])
+			dfs(graph[vertex][i]);
+	order.push_back(vertex);
 }
 
 
