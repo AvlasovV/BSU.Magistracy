@@ -80,8 +80,8 @@ def is_prime(number, iterations=40):
 
 if __name__ == "__main__":
 
-    k = 15 # For Miller-Rabin test
-    m = 20 # For Fermat test
+    k = 15  # For Miller-Rabin test
+    m = 20  # For Fermat test
     with open("carmichael.in", "r") as input, open("carmichael.out", "w") as output:
         count = int(next(input))
         for i in range(count):
@@ -99,7 +99,6 @@ if __name__ == "__main__":
                         break
                 else:
                     output.write("Yes\n")
-
 
     # for i in range(10 ** 8):
     #     number = i

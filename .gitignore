@@ -6,6 +6,12 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # pampam
+*.h5
+*.bmp
+*.jpg
+*.bz2
+*.7z
+*.gz
 *.cbp
 *.depend
 *.filters
@@ -717,3 +723,4 @@ ASALocalRun/
 !/Algorithms/FastTransposition/FastTransposition/FastTransposition.vcxproj.filters
 /Algorithms/FastTransposition/FastTransposition/FastTransposition.vcxproj.filters
 /Algorithms/FastTransposition/FastTransposition/FastTransposition.vcxproj
+**/hw7/lib*/
